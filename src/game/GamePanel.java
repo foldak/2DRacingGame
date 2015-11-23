@@ -11,14 +11,14 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
-public class GamePanel extends JPanel implements Runnable {
+public class GamePanel extends JPanel implements Runnable, KeyListener {
 	// Fields
 	public static int WIDTH = 600;
 	public static int HEIGHT = 400;
 
 	private Thread thread;
 	private boolean running;
-	
+
 	private BufferedImage image;
 	private Graphics2D g;
 
@@ -43,7 +43,7 @@ public class GamePanel extends JPanel implements Runnable {
 			thread = new Thread(this);
 			thread.start();
 		}
-		// addKeyListener(this);
+		addKeyListener(this);
 	}
 
 	public void run() {
@@ -102,7 +102,7 @@ public class GamePanel extends JPanel implements Runnable {
 	}
 
 	private void gameUpdate() {
-
+		player.update();
 	}
 
 	private void gameRender() {
@@ -110,8 +110,9 @@ public class GamePanel extends JPanel implements Runnable {
 		g.setColor(new Color(0, 100, 255));
 		g.fillRect(0, 0, WIDTH, HEIGHT);
 		g.setColor(Color.BLACK);
-		Integer avg = (int)averageFPS;
-		g.drawString((avg.toString()), 10,30);
+		Integer avg = (int) averageFPS;
+		
+		g.drawString((avg.toString())+" x: "+player.getx(), 10, 30);
 		player.draw(g);
 
 	}
@@ -119,35 +120,52 @@ public class GamePanel extends JPanel implements Runnable {
 	private void gameDraw() {
 		Graphics2D g2 = (Graphics2D) this.getGraphics();
 		g2.drawImage(image, 0, 0, null);
-		
+
 		g2.dispose();
 	}
 
-	/*
-	 * @Override public void keyTyped(KeyEvent e) { // TODO Auto-generated
-	 * method stub
-	 * 
-	 * }
-	 * 
-	 * @Override public void keyPressed(KeyEvent e) { int keyCode =
-	 * e.getKeyCode(); if (keyCode == KeyEvent.VK_LEFT) { player.setLeft(true);
-	 * 
-	 * } if (keyCode == KeyEvent.VK_RIGHT) { player.setRight(true); } if
-	 * (keyCode == KeyEvent.VK_UP) { player.setUp(true); } if (keyCode ==
-	 * KeyEvent.VK_DOWN) { player.setDown(true); } if (keyCode == KeyEvent.VK_Z)
-	 * { player.setFiring(true); }
-	 * 
-	 * }
-	 * 
-	 * @Override public void keyReleased(KeyEvent e) { int keyCode =
-	 * e.getKeyCode(); if (keyCode == KeyEvent.VK_LEFT) { player.setLeft(false);
-	 * 
-	 * } if (keyCode == KeyEvent.VK_RIGHT) { player.setRight(false); } if
-	 * (keyCode == KeyEvent.VK_UP) { player.setUp(false); } if (keyCode ==
-	 * KeyEvent.VK_DOWN) { player.setDown(false); }
-	 * 
-	 * if (keyCode == KeyEvent.VK_Z) { player.setFiring(false); }
-	 * 
-	 * }
-	 */
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated
+
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		int keyCode = e.getKeyCode();
+		if (keyCode == KeyEvent.VK_LEFT) {
+			player.setLeft(true);
+
+		}
+		if (keyCode == KeyEvent.VK_RIGHT) {
+			player.setRight(true);
+		}
+		if (keyCode == KeyEvent.VK_UP) {
+			player.setUp(true);
+		}
+		if (keyCode == KeyEvent.VK_DOWN) {
+			player.setDown(true);
+		}
+
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		int keyCode = e.getKeyCode();
+		if (keyCode == KeyEvent.VK_LEFT) {
+			player.setLeft(false);
+
+		}
+		if (keyCode == KeyEvent.VK_RIGHT) {
+			player.setRight(false);
+		}
+		if (keyCode == KeyEvent.VK_UP) {
+			player.setUp(false);
+		}
+		if (keyCode == KeyEvent.VK_DOWN) {
+			player.setDown(false);
+		}
+
+	}
+
 }
