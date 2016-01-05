@@ -16,3 +16,6 @@ git user
 git commit
 git config --global user.email f.oldak666@gmail.com
 git commit
+git commit -m "Player is moving" 
+git add .
+git commit -m "Player is moving" 
